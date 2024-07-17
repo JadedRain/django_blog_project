@@ -1,2 +1,3 @@
 django_blog/django_blog/.env
 venv
+django_blog/media/profile_pics
