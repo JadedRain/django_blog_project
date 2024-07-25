@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
 from .forms import UserRegistationForm, UserUpdateFrom, ProfileUpdateForm
+import os
 
 
 def register_view(request):
@@ -25,6 +27,8 @@ def user_logout_view(request):
 @login_required
 def profile(request):
     if request.method == 'POST':
+        if request.user.profile.image.url != '/media/default.jpg':
+            os.remove(os.path.join(settings.MEDIA_ROOT, request.user.profile.image.name))
         user_update_form = UserUpdateFrom(request.POST, instance=request.user)
         profile_update_form = ProfileUpdateForm(request.POST, 
                                                 request.FILES, 
